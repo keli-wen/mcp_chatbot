@@ -1,8 +1,8 @@
 from typing import Any
 
 
-class Tool:
-    """Represents a tool with its properties and formatting."""
+class MCPTool:
+    """Represents a MCP tool with its properties and formatting."""
 
     def __init__(
         self, name: str, description: str, input_schema: dict[str, Any]
