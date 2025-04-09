@@ -21,7 +21,7 @@ class OpenAIClient:
         )
 
     def get_response(self, messages: list[dict[str, str]]) -> str:
-        """Get a response from the LLM (qwen).
+        """Get a response from the LLM.
 
         Args:
             messages: A list of message dictionaries.
@@ -36,8 +36,35 @@ class OpenAIClient:
         )
         return completion.choices[0].message.content
 
+    def get_stream_response(
+        self, messages: list[dict[str, str]]
+    ):
+        """Get a streaming response from the LLM.
+
+        Args:
+            messages: A list of message dictionaries.
+
+        Yields:
+            Chunks of the response as they arrive.
+        """
+        stream = self.client.chat.completions.create(
+            model=self.model_name,
+            messages=messages,
+            temperature=0.7,
+            stream=True,
+        )
+
+        for chunk in stream:
+            content = chunk.choices[0].delta.content
+            if content is not None:
+                yield content
+
 
 if __name__ == "__main__":
     client = OpenAIClient()
     # Testing.
     print(client.get_response([{"role": "user", "content": "你是谁？"}]))
+
+    # Testing stream response
+    for chunk in client.get_stream_response([{"role": "user", "content": "你是谁？"}]):
+        print(chunk, end="", flush=True)
