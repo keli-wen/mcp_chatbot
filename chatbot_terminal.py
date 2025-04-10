@@ -20,7 +20,7 @@ async def main(llm_provider: LLMProvider = "openai") -> None:
     # Load configuration and setup clients
     config = Configuration()
     server_config = config.load_config("mcp_servers/servers_config.json")
-    servers = [
+    clients = [
         MCPClient(name, srv_config)
         for name, srv_config in server_config["mcpServers"].items()
     ]
@@ -32,7 +32,7 @@ async def main(llm_provider: LLMProvider = "openai") -> None:
     )
 
     # Create chat session
-    chat_session = ChatSession(servers, llm_client)
+    chat_session = ChatSession(clients, llm_client)
 
     # Initialize the session
     init_success = await chat_session.initialize()
@@ -55,7 +55,10 @@ async def main(llm_provider: LLMProvider = "openai") -> None:
                     break
 
                 # Process message and get response
-                response = await chat_session.send_message(user_input)
+                response = await chat_session.send_message(
+                    user_input,
+                    show_workflow=True,
+                )
 
                 # Display response
                 print(

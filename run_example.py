@@ -1,28 +1,25 @@
+import argparse
 import asyncio
 import os
-from typing import Any
+from typing import Any, Dict, List
 
-from mcp_chatbot import ChatSession, Configuration, Server
-from mcp_chatbot.llm.oai import OpenAIClient as LLMClient
+from mcp_chatbot import ChatSession, Configuration, MCPClient
+from mcp_chatbot.llm import LLMProvider, create_llm_client
 
 
-def parse_servers_config(config: dict[str, Any]) -> list[Server]:
+def parse_servers_config(config: Dict[str, Any]) -> List[MCPClient]:
     return [
-        Server(name, srv_config) for name, srv_config in config["mcpServers"].items()
+        MCPClient(name, srv_config) for name, srv_config in config["mcpServers"].items()
     ]
 
 
-async def main() -> None:
+async def main(llm_provider: LLMProvider = "openai") -> None:
     """Initialize and run the chat session."""
     config = Configuration()
     # You can change the config file to the one you want to use
     server_config = config.load_config("mcp_servers/servers_config.json")
     servers = parse_servers_config(server_config)
-    llm_client = LLMClient(
-        model_name=config.llm_model_name,
-        api_key=config.llm_api_key,
-        base_url=config.llm_base_url,
-    )
+    llm_client = create_llm_client(llm_provider, config)
     chat_session = ChatSession(servers, llm_client)
 
     markdown_folder_path = os.getenv("MARKDOWN_FOLDER_PATH")
@@ -36,13 +33,25 @@ async def main() -> None:
 
     try:
         await chat_session.initialize()
-        await chat_session.run(
+        await chat_session.send_message(
             f"Please summarize the content of the {markdown_folder_path} folder "
-            "in one sentence. (use Chinese)"
+            "in one sentence. (use Chinese) "
+            f"and write the result in the {result_folder_path}/summary.md file.",
+            show_workflow=True,
         )
     finally:
-        await chat_session.cleanup_servers()
+        await chat_session.cleanup_clients()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--llm-provider",
+        type=str,
+        choices=["openai", "ollama"],
+        default="openai",
+        help="LLM provider to use (openai or ollama)",
+    )
+    args = parser.parse_args()
+
+    asyncio.run(main(llm_provider=args.llm_provider))
