@@ -4,12 +4,13 @@
 
 ## 概述
 
+- 🚩 Update (2025-04-10): 更复杂的 LLM 响应解析，支持多个 MCP 工具调用和多个聊天迭代。
+
 本项目包括：
 
-- 简单的命令行聊天机器人界面
-- 通过 MCP 集成 Markdown 处理工具
-- 支持定制化 LLM（例如 Qwen）
-- 用于处理和总结 Markdown 文件的 MCP 示例实现（非常简单，仅用于演示）
+- 简单/复杂命令行聊天机器人界面
+- 通过 MCP 集成一些内置的 MCP 服务器（例如 Markdown 处理工具）
+- 支持定制化 LLM（例如 Qwen）和 Ollama
 
 ## 系统要求
 
@@ -71,6 +72,8 @@
      LLM_MODEL_NAME=你的LLM模型名称
      LLM_BASE_URL=你的LLM API地址
      LLM_API_KEY=你的LLM API密钥
+     OLLAMA_MODEL_NAME=你的ollama模型名称
+     OLLAMA_BASE_URL=你的ollama API地址
      MARKDOWN_FOLDER_PATH=/你的/markdown/文件夹/路径
      RESULT_FOLDER_PATH=/你的/结果/文件夹/路径
      ```
@@ -114,19 +117,19 @@
 你可以通过运行：
 
 ```bash
-bash check.sh
+bash scripts/check.sh
 ```
 
 来检查您的配置是否正确。
 
 ## 使用方法
 
-### 基本聊天机器人
+### 基本终端聊天机器人
 
-要运行基本的聊天机器人界面：
+要运行基本的终端聊天机器人：
 
 ```bash
-python main.py
+python chatbot_terminal.py
 ```
 
 这将启动一个交互式会话，您可以与 AI 聊天。AI 可以访问由配置的 MCP 服务器提供的工具。
@@ -154,7 +157,7 @@ python run_example.py
   - `chat/`：聊天会话管理
   - `config/`：配置处理
   - `llm/`：LLM 客户端实现
-  - `mcp_server/`：MCP 服务器和工具集成
+  - `mcp/`：MCP 客户端和工具集成
 - `mcp_servers/`：自定义 MCP 服务器实现
   - `markdown_processor.py`：处理 Markdown 文件的服务器
   - `servers_config.json`：MCP 服务器配置

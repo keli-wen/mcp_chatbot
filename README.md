@@ -6,12 +6,13 @@ For Chinese version, please refer to [README_ZH.md](README_ZH.md).
 
 ## Overview
 
+- 🚩 Update (2025-04-10): More complex LLM response parsing, supporting multiple MCP tool calls and multiple chat iterations.
+
 This project includes:
 
-- A simple CLI chatbot interface
-- Integration with Markdown processing tools via MCP
-- Support for customized LLM (e.g. Qwen)
-- Example implementation for processing and summarizing Markdown files (**very simple, just for demo**)
+- Simple/Complex CLI chatbot interface
+- Integration with some builtin MCP Server like (Markdown processing tools)
+- Support for customized LLM (e.g. Qwen) and Ollama
 
 ## Requirements
 
@@ -73,6 +74,8 @@ This project includes:
      LLM_MODEL_NAME=your_llm_model_name_here
      LLM_BASE_URL=your_llm_base_url_here
      LLM_API_KEY=your_llm_api_key_here
+     OLLAMA_MODEL_NAME=your_ollama_model_name_here
+     OLLAMA_BASE_URL=your_ollama_base_url_here
      MARKDOWN_FOLDER_PATH=/path/to/your/markdown/folder
      RESULT_FOLDER_PATH=/path/to/your/result/folder
      ```
@@ -116,7 +119,7 @@ Before running the application, you need to modify the following:
 You can run the following command to check your configuration:
 
 ```bash
-bash check.sh
+bash scripts/check.sh
 ```
 
 ## Usage
@@ -126,7 +129,7 @@ bash check.sh
 To run the basic chatbot interface:
 
 ```bash
-python main.py
+python chatbot_terminal.py
 ```
 
 This will start an interactive session where you can chat with the AI. The AI has access to the tools provided by the configured MCP servers.
@@ -154,7 +157,7 @@ This script will:
   - `chat/`: Chat session management
   - `config/`: Configuration handling
   - `llm/`: LLM client implementation
-  - `mcp_server/`: MCP server and tool integration
+  - `mcp/`: MCP client and tool integration
 - `mcp_servers/`: Custom MCP servers implementation
   - `markdown_processor.py`: Server for processing Markdown files
   - `servers_config.json`: Configuration for MCP servers
