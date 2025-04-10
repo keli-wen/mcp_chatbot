@@ -8,7 +8,9 @@ from mcp_chatbot import ChatSession, Configuration, MCPClient
 from mcp_chatbot.llm import LLMProvider, create_llm_client
 
 
-async def main(llm_provider: LLMProvider = "openai") -> None:
+async def main(
+    llm_provider: LLMProvider = "openai", show_workflow: bool = True
+) -> None:
     """Initialize and run the chat session with specified LLM provider.
 
     Args:
@@ -57,7 +59,7 @@ async def main(llm_provider: LLMProvider = "openai") -> None:
                 # Process message and get response
                 response = await chat_session.send_message(
                     user_input,
-                    show_workflow=True,
+                    show_workflow=show_workflow,
                 )
 
                 # Display response
@@ -84,6 +86,11 @@ if __name__ == "__main__":
         default="openai",
         help="LLM provider to use (openai or ollama)",
     )
+    parser.add_argument(
+        "--no-workflow",
+        action="store_true",
+        help="Do not show workflow",
+    )
     args = parser.parse_args()
 
-    asyncio.run(main(llm_provider=args.llm))
+    asyncio.run(main(llm_provider=args.llm, show_workflow=not args.no_workflow))

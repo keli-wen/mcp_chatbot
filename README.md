@@ -6,8 +6,10 @@ For Chinese version, please refer to [README_ZH.md](README_ZH.md).
 
 ## Overview
 
-- 🚩 Update (2025-04-10): More complex LLM response parsing, supporting multiple MCP tool calls and multiple chat iterations.
-- 🚩 Update (2025-04-12): Added single prompt examples with both regular and streaming modes.
+- 🚩 Update (2025-04-10): 
+  - More complex LLM response parsing, supporting multiple MCP tool calls and multiple chat iterations.
+  - Added single prompt examples with both regular and streaming modes.
+  - Added interactive terminal chatbot examples.
 
 This project includes:
 
@@ -15,6 +17,7 @@ This project includes:
 - Integration with some builtin MCP Server like (Markdown processing tools)
 - Support for customized LLM (e.g. Qwen) and Ollama
 - Example scripts for single prompt processing in both regular and streaming modes
+- Interactive terminal chatbot with regular and streaming response modes
 
 ## Requirements
 
@@ -126,42 +129,61 @@ bash scripts/check.sh
 
 ## Usage
 
-### Basic Chatbot
+### Unit Test
 
-To run the basic chatbot interface:
+You can run the following command to run the unit test:
 
 ```bash
-python chatbot_terminal.py
+bash scripts/unittest.sh
 ```
 
-This will start an interactive session where you can chat with the AI. The AI has access to the tools provided by the configured MCP servers.
-
-### Running the Examples
+### Examples
 
 #### Single Prompt Examples
 
 The project includes two single prompt examples:
 
 1. **Regular Mode**: Process a single prompt and display the complete response
-
    ```bash
    python example/single_prompt/single_prompt.py
    ```
 
 2. **Streaming Mode**: Process a single prompt with real-time streaming output
-
    ```bash
    python example/single_prompt/single_prompt_stream.py
    ```
 
 Both examples accept an optional `--llm-provider` parameter to specify which LLM provider to use:
-
 ```bash
 python example/single_prompt/single_prompt.py --llm-provider=ollama
 ```
 
 > [!NOTE]
 > For more details, see the [Single Prompt Example README](example/single_prompt/README.md).
+
+#### Terminal Chatbot Examples
+
+The project includes two interactive terminal chatbot examples:
+
+1. **Regular Mode**: Interactive terminal chat with complete responses
+   ```bash
+   python example/chatbot_terminal/chatbot_terminal.py
+   ```
+
+2. **Streaming Mode**: Interactive terminal chat with streaming responses
+   ```bash
+   python example/chatbot_terminal/chatbot_terminal_stream.py
+   ```
+
+Both examples accept an optional `--llm` parameter to specify which LLM provider to use:
+```bash
+python example/chatbot_terminal/chatbot_terminal.py --llm=ollama
+```
+
+> [!NOTE]
+> For more details, see the [Terminal Chatbot Example README](example/chatbot_terminal/README.md).
+
+</details>
 
 ## Project Structure
 
@@ -177,6 +199,7 @@ python example/single_prompt/single_prompt.py --llm-provider=ollama
 - `data-example/`: Example Markdown files for testing
 - `example/`: Example scripts for different use cases
   - `single_prompt/`: Single prompt processing examples (regular and streaming)
+  - `chatbot_terminal/`: Interactive terminal chatbot examples (regular and streaming)
 
 ## Extending the Project
 

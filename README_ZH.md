@@ -4,8 +4,10 @@
 
 ## 概述
 
-- 🚩 Update (2025-04-10): 更复杂的 LLM 响应解析，支持多个 MCP 工具调用和多个聊天迭代。
-- 🚩 Update (2025-04-12): 添加了单一提示示例，支持常规模式和流式模式。
+- 🚩 Update (2025-04-10): 
+  - 更复杂的 LLM 响应解析，支持多个 MCP 工具调用和多个聊天迭代。
+  - 添加了单一提示示例，支持常规模式和流式模式。
+  - 添加了交互式终端聊天机器人示例。
 
 本项目包括：
 
@@ -13,6 +15,7 @@
 - 通过 MCP 集成一些内置的 MCP 服务器（例如 Markdown 处理工具）
 - 支持定制化 LLM（例如 Qwen）和 Ollama
 - 提供单一提示处理的示例脚本，包括常规模式和流式模式
+- 交互式终端聊天机器人，支持常规和流式响应模式
 
 ## 系统要求
 
@@ -126,42 +129,68 @@ bash scripts/check.sh
 
 ## 使用方法
 
-### 基本终端聊天机器人
+### 单元测试
 
-要运行基本的终端聊天机器人：
+我添加了一些非常简单的单元测试，你可以通过：
 
 ```bash
-python chatbot_terminal.py
+bash scripts/unittest.sh
 ```
 
-这将启动一个交互式会话，您可以与 AI 聊天。AI 可以访问由配置的 MCP 服务器提供的工具。
+来运行它们。
 
-### 运行示例
+### 示例
 
 #### 单一提示示例
 
 项目包含两个单一提示示例：
 
 1. **常规模式**：处理单一提示并显示完整响应
-
    ```bash
    python example/single_prompt/single_prompt.py
    ```
 
 2. **流式模式**：处理单一提示并提供实时流式输出
-
    ```bash
    python example/single_prompt/single_prompt_stream.py
    ```
 
 两个示例都接受可选的 `--llm-provider` 参数来指定要使用的 LLM 提供者：
-
 ```bash
 python example/single_prompt/single_prompt.py --llm-provider=ollama
 ```
 
 > [!NOTE]
 > 更多详情，请参阅[单一提示示例 README](example/single_prompt/README_ZH.md)。
+
+#### 终端聊天机器人示例
+
+项目包含两个交互式终端聊天机器人示例：
+
+1. **常规模式**：带有完整响应的交互式终端聊天
+   ```bash
+   python example/chatbot_terminal/chatbot_terminal.py
+   ```
+
+2. **流式模式**：带有流式响应的交互式终端聊天
+   ```bash
+   python example/chatbot_terminal/chatbot_terminal_stream.py
+   ```
+
+两个示例都接受可选的 `--llm` 参数来指定要使用的 LLM 提供者：
+```bash
+python example/chatbot_terminal/chatbot_terminal.py --llm=ollama
+```
+
+两个示例都接受可选的 `--no-workflow` 参数来隐藏工作流程跟踪：
+```bash
+python example/chatbot_terminal/chatbot_terminal.py --no-workflow
+```
+
+> [!NOTE]
+> 更多详情，请参阅[终端聊天机器人示例 README](example/chatbot_terminal/README_ZH.md)。
+
+</details>
 
 ## 项目结构
 
@@ -177,6 +206,7 @@ python example/single_prompt/single_prompt.py --llm-provider=ollama
 - `data-example/`：用于测试的示例 Markdown 文件
 - `example/`：不同用例的示例脚本
   - `single_prompt/`：单一提示处理示例（常规和流式）
+  - `chatbot_terminal/`：交互式终端聊天机器人示例（常规和流式）
 
 ## 扩展项目
 
