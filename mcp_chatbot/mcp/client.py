@@ -3,7 +3,7 @@ import logging
 import os
 import shutil
 from contextlib import AsyncExitStack
-from typing import Any
+from typing import Any, List
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -54,7 +54,7 @@ class MCPClient:
             await self.cleanup()
             raise
 
-    async def list_tools(self) -> list[Any]:
+    async def list_tools(self) -> List[MCPTool]:
         """List available tools from the server.
 
         Returns:
