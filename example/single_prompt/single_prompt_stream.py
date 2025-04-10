@@ -89,7 +89,7 @@ async def main(llm_provider: LLMProvider = "openai") -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--llm-provider",
+        "--llm",
         type=str,
         choices=["openai", "ollama"],
         default="openai",
@@ -97,4 +97,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    asyncio.run(main(llm_provider=args.llm_provider))
+    asyncio.run(main(llm_provider=args.llm))

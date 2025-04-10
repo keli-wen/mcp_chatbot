@@ -71,7 +71,7 @@ Before running the example:
 
 ## Parameters
 
-Both scripts accept the `--llm-provider` parameter to specify which LLM provider to use:
+Both scripts accept the `--llm` parameter to specify which LLM provider to use:
 
 - `openai` (default): Use OpenAI-compatible API
 - `ollama`: Use Ollama for local LLM processing
@@ -79,5 +79,5 @@ Both scripts accept the `--llm-provider` parameter to specify which LLM provider
 Example:
 
 ```bash
-python example/single_prompt/single_prompt.py --llm-provider=ollama
+python example/single_prompt/single_prompt.py --llm=ollama
 ```

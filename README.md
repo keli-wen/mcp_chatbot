@@ -158,9 +158,9 @@ The project includes two single prompt examples:
    python example/single_prompt/single_prompt_stream.py
    ```
 
-Both examples accept an optional `--llm-provider` parameter to specify which LLM provider to use:
+Both examples accept an optional `--llm` parameter to specify which LLM provider to use:
 ```bash
-python example/single_prompt/single_prompt.py --llm-provider=ollama
+python example/single_prompt/single_prompt.py --llm=ollama
 ```
 
 > [!NOTE]

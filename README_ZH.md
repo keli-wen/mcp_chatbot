@@ -162,9 +162,9 @@ bash scripts/unittest.sh
    python example/single_prompt/single_prompt_stream.py
    ```
 
-两个示例都接受可选的 `--llm-provider` 参数来指定要使用的 LLM 提供者：
+两个示例都接受可选的 `--llm` 参数来指定要使用的 LLM 提供者：
 ```bash
-python example/single_prompt/single_prompt.py --llm-provider=ollama
+python example/single_prompt/single_prompt.py --llm=ollama
 ```
 
 > [!NOTE]

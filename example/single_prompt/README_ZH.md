@@ -68,7 +68,7 @@ python example/single_prompt/single_prompt_stream.py
 
 ## 参数
 
-两个脚本都接受 `--llm-provider` 参数来指定要使用的 LLM 提供者：
+两个脚本都接受 `--llm` 参数来指定要使用的 LLM 提供者：
 
 - `openai`（默认）：使用 OpenAI 兼容的 API
 - `ollama`：使用 Ollama 进行本地 LLM 处理
@@ -76,5 +76,5 @@ python example/single_prompt/single_prompt_stream.py
 示例：
 
 ```bash
-python example/single_prompt/single_prompt.py --llm-provider=ollama
+python example/single_prompt/single_prompt.py --llm=ollama
 ```
