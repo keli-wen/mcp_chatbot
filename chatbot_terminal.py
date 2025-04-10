@@ -1,25 +1,86 @@
+import argparse
 import asyncio
+import logging
 
-from mcp_chatbot import ChatSession, Configuration, Server
-from mcp_chatbot.llm.oai import OpenAIClient as LLMClient
+import colorama
+
+from mcp_chatbot import ChatSession, Configuration, MCPClient
+from mcp_chatbot.llm import LLMProvider, create_llm_client
 
 
-async def main() -> None:
-    """Initialize and run the chat session."""
+async def main(llm_provider: LLMProvider = "openai") -> None:
+    """Initialize and run the chat session with specified LLM provider.
+
+    Args:
+        llm_provider: Which LLM provider to use ("openai" or "ollama")
+    """
+    # Initialize colorama for colored terminal output
+    colorama.init()
+
+    # Load configuration and setup clients
     config = Configuration()
     server_config = config.load_config("mcp_servers/servers_config.json")
     servers = [
-        Server(name, srv_config)
+        MCPClient(name, srv_config)
         for name, srv_config in server_config["mcpServers"].items()
     ]
-    llm_client = LLMClient(
-        model_name=config.llm_model_name,
-        api_key=config.llm_api_key,
-        base_url=config.llm_base_url,
+
+    # Create appropriate LLM client
+    llm_client = create_llm_client(
+        provider=llm_provider,
+        config=config,
     )
+
+    # Create chat session
     chat_session = ChatSession(servers, llm_client)
-    await chat_session.start()
+
+    # Initialize the session
+    init_success = await chat_session.initialize()
+    if not init_success:
+        logging.error("Failed to initialize chat session")
+        return
+
+    try:
+        # Main chat loop
+        while True:
+            try:
+                # Get user input
+                user_input = input(
+                    f"{colorama.Fore.GREEN}You: {colorama.Style.RESET_ALL}"
+                ).strip()
+
+                # Check for exit command
+                if user_input.lower() in ["quit", "exit"]:
+                    logging.info("\nExiting...")
+                    break
+
+                # Process message and get response
+                response = await chat_session.send_message(user_input)
+
+                # Display response
+                print(
+                    f"{colorama.Fore.BLUE}"
+                    f"Assistant: {colorama.Style.RESET_ALL}"
+                    f"{response}"
+                )
+
+            except KeyboardInterrupt:
+                logging.info("\nExiting...")
+                break
+    finally:
+        # Clean up resources
+        await chat_session.cleanup_clients()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    parser = argparse.ArgumentParser(description="Run MCP Chatbot")
+    parser.add_argument(
+        "--llm",
+        type=str,
+        choices=["openai", "ollama"],
+        default="openai",
+        help="LLM provider to use (openai or ollama)",
+    )
+    args = parser.parse_args()
+
+    asyncio.run(main(llm_provider=args.llm))
