@@ -7,12 +7,14 @@ For Chinese version, please refer to [README_ZH.md](README_ZH.md).
 ## Overview
 
 - 🚩 Update (2025-04-10): More complex LLM response parsing, supporting multiple MCP tool calls and multiple chat iterations.
+- 🚩 Update (2025-04-12): Added single prompt examples with both regular and streaming modes.
 
 This project includes:
 
 - Simple/Complex CLI chatbot interface
 - Integration with some builtin MCP Server like (Markdown processing tools)
 - Support for customized LLM (e.g. Qwen) and Ollama
+- Example scripts for single prompt processing in both regular and streaming modes
 
 ## Requirements
 
@@ -134,34 +136,47 @@ python chatbot_terminal.py
 
 This will start an interactive session where you can chat with the AI. The AI has access to the tools provided by the configured MCP servers.
 
-### Running the Example
+### Running the Examples
 
-To run the provided example that summarizes Markdown content:
+#### Single Prompt Examples
+
+The project includes two single prompt examples:
+
+1. **Regular Mode**: Process a single prompt and display the complete response
+
+   ```bash
+   python example/single_prompt/single_prompt.py
+   ```
+
+2. **Streaming Mode**: Process a single prompt with real-time streaming output
+
+   ```bash
+   python example/single_prompt/single_prompt_stream.py
+   ```
+
+Both examples accept an optional `--llm-provider` parameter to specify which LLM provider to use:
 
 ```bash
-python run_example.py
+python example/single_prompt/single_prompt.py --llm-provider=ollama
 ```
 
-This script will:
-
-1. Initialize the MCP servers
-2. Connect to the Qwen API
-3. Process the Markdown files from the configured directory
-4. Generate a summary in Chinese
+> [!NOTE]
+> For more details, see the [Single Prompt Example README](example/single_prompt/README.md).
 
 ## Project Structure
 
-- `main.py`: Entry point for the interactive chatbot
-- `run_example.py`: Example script showing how to use the system for a specific task
 - `mcp_chatbot/`: Core library code
   - `chat/`: Chat session management
   - `config/`: Configuration handling
   - `llm/`: LLM client implementation
   - `mcp/`: MCP client and tool integration
+  - `utils/`: Utility functions (e.g. `WorkflowTrace` and `StreamPrinter`)
 - `mcp_servers/`: Custom MCP servers implementation
   - `markdown_processor.py`: Server for processing Markdown files
   - `servers_config.json`: Configuration for MCP servers
 - `data-example/`: Example Markdown files for testing
+- `example/`: Example scripts for different use cases
+  - `single_prompt/`: Single prompt processing examples (regular and streaming)
 
 ## Extending the Project
 
@@ -170,6 +185,7 @@ You can extend this project by:
 1. Adding new MCP servers in the `mcp_servers/` directory
 2. Updating the `servers_config.json` to include your new servers
 3. Implementing new functionalities in the existing servers
+4. Creating new examples based on the provided templates
 
 ## Troubleshooting
 

@@ -5,12 +5,14 @@
 ## 概述
 
 - 🚩 Update (2025-04-10): 更复杂的 LLM 响应解析，支持多个 MCP 工具调用和多个聊天迭代。
+- 🚩 Update (2025-04-12): 添加了单一提示示例，支持常规模式和流式模式。
 
 本项目包括：
 
 - 简单/复杂命令行聊天机器人界面
 - 通过 MCP 集成一些内置的 MCP 服务器（例如 Markdown 处理工具）
 - 支持定制化 LLM（例如 Qwen）和 Ollama
+- 提供单一提示处理的示例脚本，包括常规模式和流式模式
 
 ## 系统要求
 
@@ -136,32 +138,45 @@ python chatbot_terminal.py
 
 ### 运行示例
 
-要运行提供的总结 Markdown 内容的示例：
+#### 单一提示示例
+
+项目包含两个单一提示示例：
+
+1. **常规模式**：处理单一提示并显示完整响应
+
+   ```bash
+   python example/single_prompt/single_prompt.py
+   ```
+
+2. **流式模式**：处理单一提示并提供实时流式输出
+
+   ```bash
+   python example/single_prompt/single_prompt_stream.py
+   ```
+
+两个示例都接受可选的 `--llm-provider` 参数来指定要使用的 LLM 提供者：
 
 ```bash
-python run_example.py
+python example/single_prompt/single_prompt.py --llm-provider=ollama
 ```
 
-该脚本将：
-
-1. 初始化 MCP 服务器
-2. 连接到通义千问 API
-3. 处理来自配置目录的 Markdown 文件
-4. 生成中文摘要
+> [!NOTE]
+> 更多详情，请参阅[单一提示示例 README](example/single_prompt/README_ZH.md)。
 
 ## 项目结构
 
-- `main.py`：交互式聊天机器人的入口点
-- `run_example.py`：展示如何将系统用于特定任务的示例脚本
 - `mcp_chatbot/`：核心库代码
   - `chat/`：聊天会话管理
   - `config/`：配置处理
   - `llm/`：LLM 客户端实现
   - `mcp/`：MCP 客户端和工具集成
+  - `utils/`：实用工具（例如 `WorkflowTrace` 和 `StreamPrinter`）
 - `mcp_servers/`：自定义 MCP 服务器实现
   - `markdown_processor.py`：处理 Markdown 文件的服务器
   - `servers_config.json`：MCP 服务器配置
 - `data-example/`：用于测试的示例 Markdown 文件
+- `example/`：不同用例的示例脚本
+  - `single_prompt/`：单一提示处理示例（常规和流式）
 
 ## 扩展项目
 
@@ -170,6 +185,7 @@ python run_example.py
 1. 在 `mcp_servers/` 目录中添加新的 MCP 服务器
 2. 更新 `servers_config.json` 以包含您的新服务器
 3. 在现有服务器中实现新功能
+4. 基于提供的模板创建新的示例
 
 ## 故障排除
 

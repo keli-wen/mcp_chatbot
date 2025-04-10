@@ -1,10 +1,17 @@
 import argparse
 import asyncio
 import os
+import sys
 from typing import Any, Dict, List
 
-from mcp_chatbot import ChatSession, Configuration, MCPClient
-from mcp_chatbot.llm import LLMProvider, create_llm_client
+# Add project root to Python path
+PROJECT_ROOT = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+)
+sys.path.insert(0, PROJECT_ROOT)
+
+from mcp_chatbot import ChatSession, Configuration, MCPClient  # noqa: E402
+from mcp_chatbot.llm import LLMProvider, create_llm_client  # noqa: E402
 
 
 def parse_servers_config(config: Dict[str, Any]) -> List[MCPClient]:
