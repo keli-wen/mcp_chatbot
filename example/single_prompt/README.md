@@ -1,6 +1,7 @@
 # Single Prompt Example
 
-- For Chinese, please refer to [README_ZH.md](README_ZH.md)
+> [!TIP]
+> For Chinese version, please refer to [README_ZH.md](README_ZH.md)
 
 This example demonstrates how to use MCPChatbot for single prompt interactions with different modes:
 
