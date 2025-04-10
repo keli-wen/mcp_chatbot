@@ -355,7 +355,8 @@ class ChatSession:
                     f"Final response after {tool_iteration - 1} tool iterations",
                 )
                 # Output formatted workflow
-                logging.info(self.workflow_tracer.render_tree_workflow())
+                if show_workflow:
+                    logging.info(self.workflow_tracer.render_tree_workflow())
                 return llm_response
 
             # Record tool calls
