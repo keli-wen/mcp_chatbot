@@ -34,7 +34,7 @@ async def main(llm_provider: LLMProvider = "openai") -> None:
 
     if "/path/to/your" in markdown_folder_path or "/path/to/your" in result_folder_path:
         raise ValueError(
-            "markdown_folder_path or result_folder_path can not contain /path/to/folder"
+            "markdown_folder_path or result_folder_path can not contain /path/to/folder "
             "Please set the correct path in the .env file"
         )
 
