@@ -2,7 +2,14 @@
 
 本项目演示了如何将模型上下文协议（Model Context Protocol，MCP）与定制化 LLM（例如 Qwen）集成，创建一个能够通过 MCP 服务器与各种工具交互的强大聊天机器人。该实现展示了 MCP 的灵活性，使大型语言模型能够无缝使用外部工具。
 
+> [!TIP]
+> 更多详情，请参阅[英文版 README](README.md)。
+
 ## 概述
+
+**Workflow Tracer Example**
+
+<img src="assets/single_prompt_demo.png" width="500">
 
 - 🚩 Update (2025-04-10): 
   - 更复杂的 LLM 响应解析，支持多个 MCP 工具调用和多个聊天迭代。
