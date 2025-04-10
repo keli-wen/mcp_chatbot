@@ -339,7 +339,8 @@ class ChatSession:
                 "Direct response without tool processing",
             )
             # Output formatted workflow
-            logging.info(self.workflow_tracer.render_tree_workflow())
+            if show_workflow:
+                print(self.workflow_tracer.render_tree_workflow())
             return llm_response
 
         # Automatically process tool calls
@@ -356,7 +357,7 @@ class ChatSession:
                 )
                 # Output formatted workflow
                 if show_workflow:
-                    logging.info(self.workflow_tracer.render_tree_workflow())
+                    print(self.workflow_tracer.render_tree_workflow())
                 return llm_response
 
             # Record tool calls
@@ -428,7 +429,7 @@ class ChatSession:
                 )
                 # Output formatted workflow
                 if show_workflow:
-                    logging.info(self.workflow_tracer.render_tree_workflow())
+                    print(self.workflow_tracer.render_tree_workflow())
                 return llm_response
 
     async def send_message_stream(
@@ -496,7 +497,7 @@ class ChatSession:
                 "Direct response without tool processing",
             )
             if show_workflow:
-                logging.info(self.workflow_tracer.render_tree_workflow())
+                print(self.workflow_tracer.render_tree_workflow())
             return
 
         # Process tool calls
@@ -511,7 +512,7 @@ class ChatSession:
                     f"Final response after {iteration} tool iterations",
                 )
                 if show_workflow:
-                    logging.info(self.workflow_tracer.render_tree_workflow())
+                    print(self.workflow_tracer.render_tree_workflow())
                 return
             
             # Record tool calls
