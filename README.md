@@ -1,5 +1,7 @@
 # MCPChatbot Example
 
+![MCP Chatbot](assets/mcp_chatbot_logo.png)
+
 This project demonstrates how to integrate the Model Context Protocol (MCP) with customized LLM (e.g. Qwen), creating a powerful chatbot that can interact with various tools through MCP servers. The implementation showcases the flexibility of MCP by enabling LLMs to use external tools seamlessly.
 
 > [!TIP]
@@ -9,7 +11,7 @@ This project demonstrates how to integrate the Model Context Protocol (MCP) with
 
 **Workflow Tracer Example**
 
-<img src="assets/single_prompt_demo.png" width="500">
+<img src="assets/single_prompt_demo.png" width="800">
 
 - 🚩 Update (2025-04-10): 
   - More complex LLM response parsing, supporting multiple MCP tool calls and multiple chat iterations.
