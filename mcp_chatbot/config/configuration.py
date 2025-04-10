@@ -11,12 +11,12 @@ class Configuration:
     def __init__(self) -> None:
         """Initialize configuration with environment variables."""
         self.load_env()
-        self.llm_api_key = os.getenv("LLM_API_KEY")
-        self.llm_base_url = os.getenv("LLM_BASE_URL")
-        self.llm_model_name = os.getenv("LLM_MODEL_NAME")
+        self._llm_api_key = os.getenv("LLM_API_KEY")
+        self._llm_base_url = os.getenv("LLM_BASE_URL")
+        self._llm_model_name = os.getenv("LLM_MODEL_NAME")
 
-        self.ollama_model_name = os.getenv("OLLAMA_MODEL_NAME")
-        self.ollama_base_url = os.getenv("OLLAMA_BASE_URL")
+        self._ollama_model_name = os.getenv("OLLAMA_MODEL_NAME")
+        self._ollama_base_url = os.getenv("OLLAMA_BASE_URL")
 
     @staticmethod
     def load_env() -> None:
@@ -50,9 +50,9 @@ class Configuration:
         Raises:
             ValueError: If the API key is not found in environment variables.
         """
-        if not self.llm_api_key:
+        if not self._llm_api_key:
             raise ValueError("LLM_API_KEY not found in environment variables")
-        return self.llm_api_key
+        return self._llm_api_key
 
     @property
     def llm_base_url(self) -> Optional[str]:
@@ -61,7 +61,7 @@ class Configuration:
         Returns:
             The base URL as a string.
         """
-        return self.llm_base_url
+        return self._llm_base_url
 
     @property
     def llm_model_name(self) -> str:
@@ -73,9 +73,9 @@ class Configuration:
         Raises:
             ValueError: If the model name is not found in environment variables.
         """
-        if not self.llm_model_name:
+        if not self._llm_model_name:
             raise ValueError("LLM_MODEL_NAME not found in environment variables")
-        return self.llm_model_name
+        return self._llm_model_name
 
     @property
     def ollama_model_name(self) -> str:
@@ -84,9 +84,9 @@ class Configuration:
         Returns:
             The model name as a string.
         """
-        if not self.ollama_model_name:
+        if not self._ollama_model_name:
             raise ValueError("OLLAMA_MODEL_NAME not found in environment variables")
-        return self.ollama_model_name
+        return self._ollama_model_name
 
     @property
     def ollama_base_url(self) -> Optional[str]:
@@ -95,6 +95,6 @@ class Configuration:
         Returns:
             The base URL as a string.
         """
-        if not self.ollama_base_url:
+        if not self._ollama_base_url:
             raise ValueError("OLLAMA_BASE_URL not found in environment variables")
-        return self.ollama_base_url
+        return self._ollama_base_url
