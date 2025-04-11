@@ -9,10 +9,16 @@
 
 ## 概述
 
+**Chatbot Streamlit Example**
+
+<img src="assets/mcp_chatbot_streamlit_demo_low.gif" width="800">
+
 **Workflow Tracer Example**
 
 <img src="assets/single_prompt_demo.png" width="800">
 
+- 🚩 Update (2025-04-11):
+  - 添加了 Streamlit 聊天机器人示例。
 - 🚩 Update (2025-04-10): 
   - 更复杂的 LLM 响应解析，支持多个 MCP 工具调用和多个聊天迭代。
   - 添加了单一提示示例，支持常规模式和流式模式。
@@ -199,6 +205,25 @@ python example/chatbot_terminal/chatbot_terminal.py --no-workflow
 > [!NOTE]
 > 更多详情，请参阅[终端聊天机器人示例 README](example/chatbot_terminal/README_ZH.md)。
 
+#### Streamlit Web 聊天机器人示例
+
+项目包含一个使用 Streamlit 的交互式 Web 聊天机器人示例：
+
+```bash
+streamlit run example/chatbot_streamlit/app.py
+```
+
+该示例具有以下特点：
+- 交互式聊天界面。
+- 实时流式响应。
+- 详细的 MCP 工具工作流可视化。
+- 可通过侧边栏配置 LLM 设置（OpenAI/Ollama）和 MCP 工具显示。
+
+![MCP Chatbot Streamlit Demo](assets/chatbot_streamlit_demo_light.png)
+
+> [!NOTE]
+> 更多详情，请参阅[Streamlit 聊天机器人示例 README](example/chatbot_streamlit/README_ZH.md)。
+
 </details>
 
 ## 项目结构
@@ -216,6 +241,7 @@ python example/chatbot_terminal/chatbot_terminal.py --no-workflow
 - `example/`：不同用例的示例脚本
   - `single_prompt/`：单一提示处理示例（常规和流式）
   - `chatbot_terminal/`：交互式终端聊天机器人示例（常规和流式）
+  - `chatbot_streamlit/`：使用 Streamlit 的交互式 Web 聊天机器人示例
 
 ## 扩展项目
 

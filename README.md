@@ -9,10 +9,16 @@ This project demonstrates how to integrate the Model Context Protocol (MCP) with
 
 ## Overview
 
+**Chatbot Streamlit Example**
+
+<img src="assets/mcp_chatbot_streamlit_demo_low.gif" width="800">
+
 **Workflow Tracer Example**
 
 <img src="assets/single_prompt_demo.png" width="800">
 
+- 🚩 Update (2025-04-11):
+  - Added chatbot streamlit example.
 - 🚩 Update (2025-04-10): 
   - More complex LLM response parsing, supporting multiple MCP tool calls and multiple chat iterations.
   - Added single prompt examples with both regular and streaming modes.
@@ -190,6 +196,25 @@ python example/chatbot_terminal/chatbot_terminal.py --llm=ollama
 > [!NOTE]
 > For more details, see the [Terminal Chatbot Example README](example/chatbot_terminal/README.md).
 
+#### Streamlit Web Chatbot Example
+
+The project includes an interactive web-based chatbot example using Streamlit:
+
+```bash
+streamlit run example/chatbot_streamlit/app.py
+```
+
+This example features:
+- Interactive chat interface.
+- Real-time streaming responses.
+- Detailed MCP tool workflow visualization.
+- Configurable LLM settings (OpenAI/Ollama) and MCP tool display via the sidebar.
+
+![MCP Chatbot Streamlit Demo](assets/chatbot_streamlit_demo_light.png)
+
+> [!NOTE]
+> For more details, see the [Streamlit Chatbot Example README](example/chatbot_streamlit/README.md).
+
 </details>
 
 ## Project Structure
@@ -207,6 +232,7 @@ python example/chatbot_terminal/chatbot_terminal.py --llm=ollama
 - `example/`: Example scripts for different use cases
   - `single_prompt/`: Single prompt processing examples (regular and streaming)
   - `chatbot_terminal/`: Interactive terminal chatbot examples (regular and streaming)
+  - `chatbot_streamlit/`: Interactive web chatbot example using Streamlit
 
 ## Extending the Project
 
