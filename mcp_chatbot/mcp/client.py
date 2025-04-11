@@ -130,3 +130,12 @@ class MCPClient:
                 self.stdio_context = None
             except Exception as e:
                 logging.error(f"Error during cleanup of server {self.name}: {e}")
+
+    async def __aenter__(self):
+        """Enter the async context manager."""
+        await self.initialize()
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        """Exit the async context manager."""
+        await self.cleanup()
