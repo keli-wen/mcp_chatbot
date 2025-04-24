@@ -1,3 +1,4 @@
+import json
 import unittest
 from unittest.mock import Mock
 
@@ -33,8 +34,8 @@ class TestToolCall(unittest.TestCase):
         )
         self.assertFalse(ambiguous_call.is_successful())
 
-    def test_format_for_llm(self):
-        """Test ToolCall.format_for_llm method."""
+    def test_to_description(self):
+        """Test ToolCall.to_description method."""
         # Test successful tool call
         successful_call = ToolCall(
             tool="test_tool",
@@ -43,10 +44,11 @@ class TestToolCall(unittest.TestCase):
             error=None,
         )
         expected_output = (
-            "Tool: test_tool\nArguments: {'arg': 'value'}\n"
-            "Tool call result: Success result\n"
+            f"Tool Name: test_tool\n"
+            f"- Arguments: {json.dumps({'arg': 'value'}, indent=2)}\n"
+            f"- Tool call result: Success result\n"
         )
-        self.assertEqual(successful_call.format_for_llm(), expected_output)
+        self.assertEqual(successful_call.to_description(), expected_output)
 
         # Test failed tool call
         failed_call = ToolCall(
@@ -56,10 +58,11 @@ class TestToolCall(unittest.TestCase):
             error="Error message",
         )
         expected_output = (
-            "Tool: test_tool\nArguments: {'arg': 'value'}\n"
-            "Tool call error: Error message\n"
+            f"Tool Name: test_tool\n"
+            f"- Arguments: {json.dumps({'arg': 'value'}, indent=2)}\n"
+            f"- Tool call error: Error message\n"
         )
-        self.assertEqual(failed_call.format_for_llm(), expected_output)
+        self.assertEqual(failed_call.to_description(), expected_output)
 
 
 class TestChatSessionUtils(unittest.TestCase):
@@ -160,11 +163,15 @@ class TestChatSessionUtils(unittest.TestCase):
 
         # Check if the result contains expected substrings
         self.assertIn("Tool Call 1:", result)
-        self.assertIn("Tool: tool1", result)
-        self.assertIn("Result: Success result", result)
+        self.assertIn("Tool Name: tool1", result)
+        self.assertIn("- Arguments: {", result)
+        self.assertIn('"arg1": "value1"', result)
+        self.assertIn("- Tool call result: Success result", result)
         self.assertIn("Tool Call 2:", result)
-        self.assertIn("Tool: tool2", result)
-        self.assertIn("Error: Error message", result)
+        self.assertIn("Tool Name: tool2", result)
+        self.assertIn("- Arguments: {", result)
+        self.assertIn('"arg2": "value2"', result)
+        self.assertIn("- Tool call error: Error message", result)
 
 
 if __name__ == "__main__":
