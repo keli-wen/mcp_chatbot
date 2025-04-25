@@ -510,7 +510,7 @@ async def process_chat(user_input: str):
             or current_config_hash != st.session_state.session_config_hash
         ):
             # st.toast(
-                # "Configuration changed or first run, initializing new chat session."
+            # "Configuration changed or first run, initializing new chat session."
             # )
             # If config changed, clear previous messages and reset state
             if (
