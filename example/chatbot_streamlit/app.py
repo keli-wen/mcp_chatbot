@@ -56,6 +56,8 @@ if "active_mcp_clients" not in st.session_state:
     st.session_state.active_mcp_clients = []  # Track active clients outside stack
 if "mcp_client_stack" not in st.session_state:
     st.session_state.mcp_client_stack = None  # Store the stack itself
+if "history_messages" not in st.session_state:
+    st.session_state.history_messages = []
 
 # --- Constants ---
 WORKFLOW_ICONS = {
@@ -145,6 +147,7 @@ def render_sidebar(mcp_tools: Optional[Dict[str, List[MCPTool]]] = None):
             # a *new* session is created due to config change or None state.
             st.session_state.active_mcp_clients = []
             st.session_state.mcp_client_stack = None
+            st.session_state.history_messages = []
             st.toast("Chat cleared!", icon="🧹")
             st.rerun()  # Rerun the app to reflect the cleared state
 
@@ -506,9 +509,9 @@ async def process_chat(user_input: str):
             st.session_state.chat_session is None
             or current_config_hash != st.session_state.session_config_hash
         ):
-            st.toast(
-                "Configuration changed or first run, initializing new chat session."
-            )
+            # st.toast(
+                # "Configuration changed or first run, initializing new chat session."
+            # )
             # If config changed, clear previous messages and reset state
             if (
                 st.session_state.session_config_hash is not None
@@ -545,8 +548,11 @@ async def process_chat(user_input: str):
             st.session_state.chat_session = ChatSession(
                 st.session_state.active_mcp_clients, llm_client
             )
+            await st.session_state.chat_session.initialize()
+            # Keep the history messages from the new chat session.
+            st.session_state.history_messages = st.session_state.chat_session.messages
             st.session_state.session_config_hash = current_config_hash
-            st.toast("New chat session initialized.", icon="🎈")  # User feedback
+            # st.toast("New chat session initialized.", icon="🎈")  # User feedback
         else:
             # Ensure clients are available if session exists
             # (they should be in active_mcp_clients)
@@ -558,6 +564,8 @@ async def process_chat(user_input: str):
             raise RuntimeError("Chat session could not be initialized.")
 
         chat_session = st.session_state.chat_session
+        chat_session.messages = st.session_state.history_messages
+        print("Chat session messages:", chat_session.messages)
 
         # Add user query to workflow steps
         current_workflow_steps.append(
@@ -580,6 +588,7 @@ async def process_chat(user_input: str):
         new_step_added = False  # Track if workflow needs rerender
 
         # Process streaming response using the persistent chat_session
+        print("Now chat session messages:", chat_session.messages)
         async for result in chat_session.send_message_stream(
             user_input, show_workflow=True
         ):
@@ -777,15 +786,42 @@ async def process_chat(user_input: str):
             }
         )
     finally:
-        # Ensure status placeholder is finalized if loop exits
-        # unexpectedly without error state
+        # --- Final UI update ---
         if (
             status_placeholder._label != f"✅ {final_status_message}"
-            and not status_placeholder._state == "error"
+            and status_placeholder._state != "error"
         ):
             status_placeholder.update(
                 label="Processing finished.", state="complete", expanded=False
             )
+
+        # ------------------------------------------------------------------
+        # IMPORTANT CLEAN‑UP!
+        #
+        # Each Streamlit rerun executes this script in a *fresh* asyncio
+        # event‑loop.  Any MCPClient / ChatSession objects created in a
+        # previous loop become invalid and will raise
+        # “Attempted to exit cancel scope in a different task…” errors when
+        # they try to close themselves later on.
+        #
+        # Therefore we:
+        #   1. Close the AsyncExitStack that owns all MCP clients *inside the
+        #      same loop that created them* (`process_chat`’s loop).
+        #   2. Drop the references from `st.session_state` so a new set of
+        #      clients / ChatSession are created on the next user message.
+        # ------------------------------------------------------------------
+        try:
+            if st.session_state.mcp_client_stack is not None:
+                await st.session_state.mcp_client_stack.__aexit__(None, None, None)
+        except Exception as cleanup_exc:
+            # Log but do not crash UI – the loop is ending anyway.
+            print("MCP clean‑up error:", cleanup_exc, file=sys.stderr)
+        finally:
+            st.session_state.mcp_client_stack = None
+            st.session_state.active_mcp_clients = []
+            # Do *not* reuse async objects across Streamlit reruns.
+            st.session_state.history_messages = chat_session.messages
+            st.session_state.chat_session = None
 
 
 def display_chat_history():
