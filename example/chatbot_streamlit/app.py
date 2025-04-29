@@ -550,7 +550,12 @@ async def process_chat(user_input: str):
             )
             await st.session_state.chat_session.initialize()
             # Keep the history messages from the new chat session.
-            st.session_state.history_messages = st.session_state.chat_session.messages
+            if not st.session_state.history_messages:
+                # If the history messages are not set, we need to get the
+                # system prompt from the chat session.
+                st.session_state.history_messages = (
+                    st.session_state.chat_session.messages
+                )
             st.session_state.session_config_hash = current_config_hash
             # st.toast("New chat session initialized.", icon="🎈")  # User feedback
         else:
