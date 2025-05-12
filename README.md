@@ -122,7 +122,7 @@ Before running the application, you need to modify the following:
    ```
 
    Replace `/path/to/your/uv` with the actual path to your uv executable. **You can use `which uv` to get the path**.
-   Replace `/path/to/your/project/mcp_servers` with the absolute path to the mcp_servers directory in your project.
+   Replace `/path/to/your/project/mcp_servers` with the absolute path to the mcp_servers directory in your project. (For **Windows** users, you can take a look at the example in the [Troubleshooting](#troubleshooting) section)
 
 2. **Environment Variables**:
    Make sure to set proper paths in your `.env` file:
@@ -244,6 +244,24 @@ You can extend this project by:
 4. Creating new examples based on the provided templates
 
 ## Troubleshooting
+
+For Windows users, you can take the following `servers_config.json` as an example:
+
+```json
+{
+    "mcpServers": {
+        "markdown_processor": {
+            "command": "C:\\Users\\13430\\.local\\bin\\uv.exe",
+            "args": [
+                "--directory",
+                "C:\\Users\\13430\\mcp_chatbot\\mcp_servers",
+                "run", 
+                "markdown_processor.py"
+            ]
+        }
+    }
+}
+```
 
 - **Path Issues**: Ensure all paths in the configuration files are absolute paths appropriate for your system
 - **MCP Server Errors**: Make sure the tools are properly installed and configured

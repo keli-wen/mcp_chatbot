@@ -9,6 +9,12 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import streamlit as st
 
+if sys.platform == "win32":
+    # The default event loop policy for Windows is SelectorEventLoop
+    # which may cause the mcp loading error.
+    # Change to WindowsSelectorEventLoopPolicy to fix.
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 # Add project root to Python path
 PROJECT_ROOT = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

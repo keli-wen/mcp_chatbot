@@ -124,6 +124,8 @@
    将 `/您的/uv/路径` 替换为您系统中 uv 可执行文件的实际路径。
    将 `/您的/项目/mcp_servers/路径` 替换为您项目中 mcp_servers 目录的绝对路径。
 
+   **注意**：对于 Windows 用户，您可以参考[故障排除](#故障排除)部分中的示例。
+
 2. **环境变量**：
    确保在 `.env` 文件中设置正确的路径：
 
@@ -253,6 +255,24 @@ streamlit run example/chatbot_streamlit/app.py
 4. 基于提供的模板创建新的示例
 
 ## 故障排除
+
+对于 Windows 用户，您可以参考如下的 `servers_config.json` 示例：
+
+```json
+{
+    "mcpServers": {
+        "markdown_processor": {
+            "command": "C:\\Users\\13430\\.local\\bin\\uv.exe",
+            "args": [
+                "--directory",
+                "C:\\Users\\13430\\mcp_chatbot\\mcp_servers",
+                "run", 
+                "markdown_processor.py"
+            ]
+        }
+    }
+}
+```
 
 - **路径问题**：确保配置文件中的所有路径都是适合您系统的绝对路径
 - **MCP 服务器错误**：确保工具已正确安装和配置
