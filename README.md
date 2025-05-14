@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/keli-wen-mcp-chatbot-badge.png)](https://mseep.ai/app/keli-wen-mcp-chatbot)
+
 # MCPChatbot Example
 
 ![MCP Chatbot](assets/mcp_chatbot_logo.png)
