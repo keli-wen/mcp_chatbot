@@ -94,7 +94,7 @@ class ChatSession:
 
     async def cleanup_clients(self) -> None:
         """Clean up all client resources."""
-        for client in self.clients:
+        for client in reversed(self.clients):
             try:
                 await client.cleanup()
             except Exception as e:
@@ -387,7 +387,7 @@ class ChatSession:
 
             # Format tool results and add to message history
             tool_results = self._format_tool_results(tool_calls)
-            self.messages.append({"role": "system", "content": tool_results})
+            self.messages.append({"role": "user", "content": tool_results})
             tool_result_formatted = self._format_tool_results(
                 tool_calls, for_display=True
             )
